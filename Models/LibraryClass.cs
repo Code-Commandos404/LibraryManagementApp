@@ -2,6 +2,23 @@
 {
     public class LibraryClass
     {
+        
+        
+        public class SqlDb
+        {
+            private readonly IConfiguration _config;
+            public string myConnectionString { get; set; } = "default";
+            public SqlDb(IConfiguration config)
+            {
+                _config = config;
+            }
+
+            public async Task<List<T>> LoadData<T,U>(string sql , U parameters)
+            {
+
+            }
+        }
+
         public class People
         {
             private string _firstName { get; set; }

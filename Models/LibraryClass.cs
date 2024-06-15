@@ -1,4 +1,8 @@
-﻿namespace LibraryManagementApp.Models
+﻿using Dapper;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+namespace LibraryManagementApp.Models
 {
     public class LibraryClass
     {
@@ -15,7 +19,12 @@
 
             public async Task<List<T>> LoadData<T,U>(string sql , U parameters)
             {
-
+                string connectionString = _config.GetConnectionString(myConnectionString); // Creates a new connection String
+                using (IDbConnection connection = new SqlConnection(connectionString)) //creates a connection
+                {
+                    var data = await connection.QueryAsync<T>(sql, parameters); //fetches the data using parameters weve specified,asyncrnously
+                    return data.ToList(); //converts the dat to a list.
+                }
             }
         }
 

@@ -11,8 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="LibraryDB\LibraryManagementDB.db" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="LibraryDB\LibraryManagementDB.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

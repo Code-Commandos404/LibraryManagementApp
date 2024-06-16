@@ -10,9 +10,9 @@ namespace DataAccessLibrary
 {
     public class BooksData : IBooksData
     {
-        private readonly SqlDb _db;
+        private readonly ISqlDb _db;
 
-        public BooksData(SqlDb db)
+        public BooksData(ISqlDb db)
         {
             _db = db;
         }

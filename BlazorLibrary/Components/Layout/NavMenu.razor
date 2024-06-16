@@ -1,10 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@*  <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">LibraryManagementApp</a>
     </div>
-</div>
+</div>  *@
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<!--<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
@@ -26,5 +26,37 @@
             </NavLink>
         </div>
     </nav>
-</div>
+</div>-->
+<MudNavMenu Style="@($"color:{Colors.Green.Accent3};")">
+    <MudNavLink Href="" Match="NavLinkMatch.All">Home</MudNavLink>
+    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix">Weather</MudNavLink>
+    
+    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix">Counter</MudNavLink>
+    <MudNavGroup Title="Library Management" @bind-Expanded=_isExpanded @onclick="IsExpanded(_isExpanded)">
+        <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">Book Management</MudNavLink>
+        <MudNavLink Href="/security" Match="NavLinkMatch.Prefix">People Management</MudNavLink>
+    </MudNavGroup>
+    
+</MudNavMenu>
+
+
+
+@code {
+    bool _isExpanded=false;
+    private bool IsExpanded(bool prop)
+    {
+        if (prop=true)
+        {
+            prop = false;
+        }
+        else
+        {
+            prop = true;
+        }
+        return prop;
+    }
+}
+
+
+
 

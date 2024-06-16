@@ -1,5 +1,6 @@
 using DataAccessLibrary;
 using LibraryManagementApp.Components;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<ISqlDb, LibraryClass.SqlDb>(); //Adding a transient service for data which creates an instance every time we ask for it...singleton adds 1 instance for the entire application
 builder.Services.AddTransient<IPeopleData, PeopleData>();
 builder.Services.AddTransient<IBooksData, BooksData>();
+builder.Services.AddMudServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

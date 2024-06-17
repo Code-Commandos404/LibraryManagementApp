@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
+using Microsoft.Data.Sqlite;
 namespace DataAccessLibrary
 {
     public class LibraryClass
@@ -21,14 +21,14 @@ namespace DataAccessLibrary
             public async Task<List<T>> LoadData<T, U>(string sql, U parameters)
             {
                 string connectionString = _config.GetConnectionString(myConnectionString); // Creates a new connection String
-                using IDbConnection connection = new SqlConnection(connectionString); //creates a connection
+                using IDbConnection connection = new SqliteConnection(connectionString); //creates a connection
                 var data = await connection.QueryAsync<T>(sql, parameters); //fetches the data using parameters weve specified,asyncrnously
                 return data.ToList(); //converts the dat to a list.
             }
             public async Task SaveData<T>(string sql, T parameters)
             {
                 string connectionString = _config.GetConnectionString(myConnectionString); // Creates a new connection String
-                using (IDbConnection connection = new SqlConnection(connectionString)) //creates a connection
+                using (IDbConnection connection = new SqliteConnection(connectionString)) //creates a connection
                 {
                     await connection.ExecuteAsync(sql, parameters); //pushes the data using parameters weve specified,asyncrnously
 

@@ -1,7 +1,52 @@
 ﻿@page "/people"
+@using DataAccessLibrary
+@using LibraryManagementApp.Models
+@using MudBlazor
 
-<h3>People</h3>
+@inject IPeopleData _db
+<h3>People Page</h3>
+
+<h4> Current People</h4>
+
+@if (peopleModels is null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table>
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Contact Number</th>
+				<th>Address</th>
+				<th>Gender</th>
+				<th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var person in peopleModels)
+			{
+				<tr>
+					<td>@person._firstName</td
+					<td>@person._lastName</td>
+					<td>@person._contactNumber</td>
+					<td>@person._Address</td>
+					<td>@person._Gender</td>
+					<td>@person._Email</td>
+				</tr>
+				
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<PeopleModel> peopleModels;
 
+	protected override async Task OnInitializedAsync()
+	{
+		peopleModels = await _db.GetPeople();
+	}
 }

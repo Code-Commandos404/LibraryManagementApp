@@ -3,13 +3,13 @@
     public class PeopleModel
     {
         
-            public string _firstName { get; set; }
-            public string _lastName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
             public int _personId { get; set; }
-            public string _contactNumber { get; set; }
-            public string _Address { get; set; }
-            public string _Gender { get; set; }
-            public string _Email { get; set; }
+            public string ContactNumber { get; set; }
+            public string Address { get; set; }
+            public string Gender { get; set; }
+            public string Email { get; set; }
             /*public People(string firstName, string lastName, string contactNumber, string Address, string Gender, string Email)
             {
                 _firstName = firstName;

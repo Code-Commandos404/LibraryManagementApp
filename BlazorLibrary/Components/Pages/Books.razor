@@ -1,107 +1,22 @@
 ﻿@page "/books"
 @rendermode InteractiveServer
-
+@inherits LayoutComponentBase
 @using MudBlazor
 
 <h3>Books</h3>
 
-<MudContainer>
-    <MudGrid>
-        <MudItem xs="12" md="4">
-            <MudPaper Class="pa-4">
-                <MudText Typo="Typo.h6">Add / Update Book</MudText>
-                <MudTextField @bind-Value="title" Label="Title" Variant="Variant.Filled" T="string" />
-                <MudTextField @bind-Value="author" Label="Author" Variant="Variant.Filled" T="string" />
-                <MudTextField @bind-Value="isbn" Label="ISBN" Variant="Variant.Filled" T="string" />
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Save</MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-3">Clear</MudButton>
-            </MudPaper>
-        </MudItem>
+<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Please input the authors full title" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Author Name" Variant="Variant.Text" />
+<MudTextField T="DateTime?" InputType="InputType.Date" Format= "yyyy-mm-dd" Counter="1000" MaxLength="1000" HelperText="Date the book was published officially" Immediate="true" Label="Date Published" Variant="Variant.Text" />
+<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Title of the book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Title" Variant="Variant.Text" />
+<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
+<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
 
-        <MudItem xs="12" md="8">
-            <MudPaper Class="pa-4">
-                <MudText Typo="Typo.h6">Book List</MudText>
-                <MudTable T="Book" Hover="true" Bordered="true" Striped="true">
-                    <HeaderContent>
-                        <MudTh>Title</MudTh>
-                        <MudTh>Author</MudTh>
-                        <MudTh>ISBN</MudTh>
-                        <MudTh>Actions</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        @* Placeholder for dynamic row data *@
-                        <MudTd>@context.Title</MudTd>
-                        <MudTd>@context.Author</MudTd>
-                        <MudTd>@context.ISBN</MudTd>
-                        <MudTd>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Info">Edit</MudButton>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Error" Class="ml-2">Delete</MudButton>
-                        </MudTd>
-                    </RowTemplate>
-                </MudTable>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+
 
 @code {
-    // Placeholder variables for binding
-    private string title { get; set; }
-    private string author { get; set; }
-    private string isbn { get; set; }
-
-    // Placeholder data model for books
-    private class Book
+    private IEnumerable<string> MaxCharacters(string ch)
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string ISBN { get; set; }
+        if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
+            yield return "Max 25 characters";
     }
-
-    // Uncomment and implement the actual data operations as needed
-    // private List<Book> books = new List<Book>();
-    // private Book currentBook = new Book();
-
-    // Load data from service on initialization
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     books = await BookService.GetBooksAsync();
-    // }
-
-    // Methods for handling book operations
-    // private async Task SaveBook()
-    // {
-    //     if (currentBook.Id == 0)
-    //     {
-    //         await BookService.AddBookAsync(currentBook);
-    //     }
-    //     else
-    //     {
-    //         await BookService.UpdateBookAsync(currentBook);
-    //     }
-    //     books = await BookService.GetBooksAsync();
-    //     ClearForm();
-    // }
-
-    // private void EditBook(Book book)
-    // {
-    //     currentBook = new Book
-    //     {
-    //         Id = book.Id,
-    //         Title = book.Title,
-    //         Author = book.Author,
-    //         ISBN = book.ISBN
-    //     };
-    // }
-
-    // private async Task DeleteBook(int id)
-    // {
-    //     await BookService.DeleteBookAsync(id);
-    //     books = await BookService.GetBooksAsync();
-    // }
-
-    // private void ClearForm()
-    // {
-    //     currentBook = new Book();
-    // }
 }

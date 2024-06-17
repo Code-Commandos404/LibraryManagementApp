@@ -14,7 +14,7 @@
 }
 else
 {
-	<table>
+	<MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
 		<thead>
 			<tr>
 				<th>First Name</th>
@@ -39,14 +39,20 @@ else
 				
 			}
 		</tbody>
-	</table>
+	</MudSimpleTable>
+	
 }
 
 @code {
+	private bool dense = true;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = true;
 	private List<PeopleModel> peopleModels;
-
+	private bool _loading;
 	protected override async Task OnInitializedAsync()
 	{
 		peopleModels = await _db.GetPeople();
 	}
 }
+

@@ -11,6 +11,9 @@
 <MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
 <MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
 
+<MudRating SelectedValue="2" FullIcon="@Icons.Material.Filled.Visibility" EmptyIcon="@Icons.Material.Filled.VisibilityOff" />
+<MudRating SelectedValue="2" FullIcon="@Icons.Material.Filled.Favorite" EmptyIcon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Secondary" />
+
 
 
 @code {

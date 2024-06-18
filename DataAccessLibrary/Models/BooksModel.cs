@@ -1,14 +1,28 @@
-﻿namespace LibraryManagementApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LibraryManagementApp.Models
 {
     public class BooksModel
     {
-        public class Book
+        [Required(ErrorMessage = "Author name is required")]
+        public string Author { get; set; }
+        [Required(ErrorMessage = "Published date is required")]
+        public DateTime? PublishedDate { get; set; }
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+        [Required(ErrorMessage = "Genre is required")]
+        public string Genre { get; set; }
+        [Required(ErrorMessage = "Rating is required")]
+        public int Rating { get; set; }
+
+
+       /* public class Book
         {
-            private string p_author;
-            private DateTime p_yearPublished;
-            private string p_title;
-            private string p_genre;
-            private int p_rating;
+            public string p_author;
+            public DateTime p_yearPublished;
+            public string p_title;
+            public string p_genre;
+            public int p_rating;
 
             public Book(string author, DateTime yearPublished, string title, string genre, int rating)
             {
@@ -20,12 +34,8 @@
 
             }
 
-            public string author { get { return p_author; } set { p_author = value; } }
-            public DateTime yearPublished { get { return p_yearPublished; } set { p_yearPublished = value; } }
-            public string title { get { return p_title; } set { p_title = value; } }
-            public string genre { get { return p_genre; } set { p_genre = value; } }
-            public int rating { get { return p_rating; } set { p_rating = value; } }
+            
 
-        }
+        }*/
     }
 }

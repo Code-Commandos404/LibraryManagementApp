@@ -19,14 +19,14 @@ namespace DataAccessLibrary
 
         public Task<List<BooksModel>> GetBooks()
         {
-            string sql = @"select * from dbo.Book;";
+            string sql = @"SELECT * from Book;";
             return _db.LoadData<BooksModel, dynamic>(sql, new { });
 
         }
 
         public Task AddBooks(BooksModel book)
         {
-            string sql = @"insert into dbo.book(Author,PublishedDate,Title,Genre,Rating)
+            string sql = @"insert into Book(Author,PublishedDate,Title,Genre,Rating)
                 values(@Author,@PublishedDate,@Title,@Genre,@Rating);";
             return _db.SaveData(sql, book);
         }

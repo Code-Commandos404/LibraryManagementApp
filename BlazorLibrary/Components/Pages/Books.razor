@@ -1,25 +1,77 @@
 ﻿@page "/books"
 @rendermode InteractiveServer
 @inherits LayoutComponentBase
+@using LibraryManagementApp.Models
+@using DataAccessLibrary
 @using MudBlazor
+@using System.ComponentModel.DataAnnotations;
+@inject IBooksData _db
+
+@*Adding in Snackbar component, found in MB docs*@
+@inject ISnackbar Snackbar
 
 <h3>Books</h3>
+@* fields for inputting the data, bind-value is getting the book properties. *@
 
-<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Please input the authors full title" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Author Name" Variant="Variant.Text" />
-<MudTextField T="DateTime?" InputType="InputType.Date" Format= "yyyy-mm-dd" Counter="1000" MaxLength="1000" HelperText="Date the book was published officially" Immediate="true" Label="Date Published" Variant="Variant.Text" />
-<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Title of the book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Title" Variant="Variant.Text" />
-<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
-<MudTextField T="string" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
+<MudTextField T="string" @bind-Value="book.Author" Counter="1000" MaxLength="1000" HelperText="Please input the authors full title" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Author Name" Variant="Variant.Text" />
+<MudTextField T="DateTime?" @bind-Value="book.PublishedDate" InputType="InputType.Date" Format="yyyy-mm-dd" Counter="1000" MaxLength="1000" HelperText="Date the book was published officially" Immediate="true" Label="Date Published" Variant="Variant.Text" />
+<MudTextField T="string" @bind-Value="book.Title" Counter="1000" MaxLength="1000" HelperText="Title of the book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Title" Variant="Variant.Text" />
+<MudTextField T="string" @bind-Value="book.Genre" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
+<MudTextField T="int" @bind-Value="book.Rating" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
 
-<MudRating SelectedValue="2" FullIcon="@Icons.Material.Filled.Visibility" EmptyIcon="@Icons.Material.Filled.VisibilityOff" />
-<MudRating SelectedValue="2" FullIcon="@Icons.Material.Filled.Favorite" EmptyIcon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Secondary" />
+@* clickable button that performs the insert of data into DB *@
+<MudButton OnClick="postData" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Click me</MudText>
+</MudButton>
 
-
+<MudButton OnClick="test" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Click me2 testing</MudText>
+</MudButton>
 
 @code {
+    // Shows warning if the max characters > 1000
     private IEnumerable<string> MaxCharacters(string ch)
     {
-        if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
-            yield return "Max 25 characters";
+        if (!string.IsNullOrEmpty(ch) && 1000 < ch?.Length)
+            yield return "Max 1000 characters";
+    }
+
+    private BooksModel book = new();
+
+    private List<BooksModel> booksModel;
+
+    //tries to post data, shows success or error depending on outcome
+    protected async Task postData()
+    {
+
+        var validationContext = new ValidationContext(book, serviceProvider: null, items: null);
+        var validationResults = new List<ValidationResult>();
+
+        if (!Validator.TryValidateObject(book, validationContext, validationResults, validateAllProperties: true))
+        {
+            foreach (var validationResult in validationResults)
+            {
+                Snackbar.Add(validationResult.ErrorMessage, Severity.Error);
+            }
+            return;
+        }
+
+
+        try
+        {
+            await _db.AddBooks(book);
+            Snackbar.Add("Book added successfully!", Severity.Success);
+            book = new BooksModel();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add($"Error adding book: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void test()
+    {
+        Snackbar.Add("Testing", Severity.Normal);
+
     }
 }

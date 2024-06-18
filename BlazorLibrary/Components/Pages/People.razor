@@ -1,7 +1,60 @@
 ﻿@page "/people"
+@using DataAccessLibrary
+@using LibraryManagementApp.Models
+@using MudBlazor
 
-<h3>People</h3>
+@inject IPeopleData _db
+<h3>View People Page</h3>
+
+<h4> Current People</h4>
+<br />
+<br />
+
+@if (peopleModels is null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Contact Number</th>
+				<th>Address</th>
+				<th>Gender</th>
+				<th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var person in peopleModels)
+			{
+				<tr>
+					<td>@person.FirstName</td
+					<td>@person.LastName</td>
+					<td>@person.ContactNumber</td>
+					<td>@person.Address</td>
+					<td>@person.Gender</td>
+					<td>@person.Email</td>
+				</tr>
+				
+			}
+		</tbody>
+	</MudSimpleTable>
+	
+}
 
 @code {
-
+	private bool dense = true;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = true;
+	private List<PeopleModel> peopleModels;
+	private bool _loading;
+	protected override async Task OnInitializedAsync()
+	{
+		peopleModels = await _db.GetPeople();
+	}
 }
+

@@ -18,7 +18,7 @@ namespace DataAccessLibrary
 
         public Task<List<PeopleModel>> GetPeople() // returns list of type people Model. no purpose to await it as its already processing the task asyncronously
         {
-            String sql = "Select * from dbo.People;";
+            String sql = "SELECT [FirstName],[LastName],[ContactNumber],[Address],[Gender],[Email] FROM [People];";
             return _db.LoadData<PeopleModel, dynamic>(sql, new { }); //passes parameters to the function as created. people model being type t and dynamic is type u
                                                                      //new{ } means that there are no paramters for the sql query
 

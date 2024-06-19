@@ -31,6 +31,19 @@
         <MudButton OnClick="postData" Variant="Variant.Filled" Color="Color.Primary">
             <MudText>Click me</MudText>
         </MudButton>
+
+        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.CloudUpload"
+                           for="@context.Id">
+                    Only image files
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
+
     </MudTabPanel>
 </MudTabs>
 

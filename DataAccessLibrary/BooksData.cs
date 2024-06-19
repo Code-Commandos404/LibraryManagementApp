@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static DataAccessLibrary.LibraryClass;
@@ -26,8 +27,8 @@ namespace DataAccessLibrary
 
         public Task AddBooks(BooksModel book)
         {
-            string sql = @"insert into Book(Author,PublishedDate,Title,Genre,Rating)
-                values(@Author,@PublishedDate,@Title,@Genre,@Rating);";
+            string sql = @"insert into Book(Author,PublishedDate,Title,Genre,Rating,BookImage)
+                values(@Author,@PublishedDate,@Title,@Genre,@Rating,@BookImage);";
             return _db.SaveData(sql, book);
         }
     }

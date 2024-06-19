@@ -3,5 +3,5 @@ CREATE TABLE [BookReturns] (
   [ReturnID] INTEGER NOT NULL
 , [AuditNo] INTEGER NOT NULL
 , [DateReturned] TEXT NOT NULL
-, CONSTRAINT [PK_Book] PRIMARY KEY ([BookID])
+, CONSTRAINT [PK_BookReturns] PRIMARY KEY ([ReturnID])
 );

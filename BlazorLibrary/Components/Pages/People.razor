@@ -6,9 +6,8 @@
 @using System.ComponentModel.DataAnnotations
 
 @inject IPeopleData _db
-@inject ISnackbar Snackbar
+@inject ISnackbar Snackbar 
 
-<MudSnackbarProvider />
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="View" Icon="@Icons.Material.Filled.List">
         <h3>View People Page</h3>
@@ -73,7 +72,7 @@
 			<MudSelectItem Value="@("N/A")" />
 		</MudSelect>
 		<MudTextField @bind-Value="_addPeople.Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
-		<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Person" OnClick="InsertaPerson" />
+		<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Person" OnClick="@InsertaPerson" />
 		
     </MudTabPanel>
 </MudTabs>

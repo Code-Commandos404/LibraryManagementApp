@@ -1,49 +1,65 @@
 ﻿@page "/people"
+@rendermode InteractiveServer
 @using DataAccessLibrary
 @using LibraryManagementApp.Models
 @using MudBlazor
 
 @inject IPeopleData _db
-<h3>View People Page</h3>
 
-<h4> Current People</h4>
-<br />
-<br />
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="View" Icon="@Icons.Material.Filled.List">
+        <h3>View People Page</h3>
 
-@if (peopleModels is null)
-{
-	<p><em>Loading...</em></p>
-}
-else
-{
-	<MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
-		<thead>
-			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Contact Number</th>
-				<th>Address</th>
-				<th>Gender</th>
-				<th>Email</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var person in peopleModels)
-			{
-				<tr>
-					<td>@person.FirstName</td
-					<td>@person.LastName</td>
-					<td>@person.ContactNumber</td>
-					<td>@person.Address</td>
-					<td>@person.Gender</td>
-					<td>@person.Email</td>
-				</tr>
+		<h4> Current People</h4>
+		<br />
+		<br />
+		@if (peopleModels is null)
+		{
+			<p><em>Loading...</em></p>
+		}
+		else
+		{
+			<MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+				<thead>
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Contact Number</th>
+						<th>Address</th>
+						<th>Gender</th>
+						<th>Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var person in peopleModels)
+					{
+						<tr>
+							<td>@person.FirstName</td
+							<td>@person.LastName</td>
+							<td>@person.ContactNumber</td>
+							<td>@person.Address</td>
+							<td>@person.Gender</td>
+							<td>@person.Email</td>
+						</tr>
 				
-			}
-		</tbody>
-	</MudSimpleTable>
+					}
+				</tbody>
+			</MudSimpleTable>
 	
-}
+		}
+    </MudTabPanel>
+
+
+    <MudTabPanel Text="Add People" Icon="@Icons.Material.Filled.AddCircle">
+        <h3>View People Page</h3>
+
+		<h4> Current People</h4>
+		<br />
+		<br />
+    </MudTabPanel>
+</MudTabs>
+
+
 
 @code {
 	private bool dense = true;

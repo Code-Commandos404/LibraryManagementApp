@@ -6,7 +6,6 @@
 @using MudBlazor
 @using System.ComponentModel.DataAnnotations;
 @inject IBooksData _db
-
 @*Adding in Snackbar component, found in MB docs*@
 @inject ISnackbar Snackbar 
 @*Adding in Snackbar component, found in MB docs*@
@@ -14,10 +13,10 @@
 
 
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
-    <MudTabPanel Text="View" Icon="@Icons.Material.Filled.List">
+    <MudTabPanel Text="View Books" Icon="@Icons.Material.Filled.List">
     </MudTabPanel>
 
-    <MudTabPanel Text="Add People" Icon="@Icons.Material.Filled.AddCircle">
+    <MudTabPanel Text="Add Books" Icon="@Icons.Material.Filled.AddCircle">
         <h3>Books</h3>
         @* fields for inputting the data, bind-value is getting the book properties. *@
 
@@ -32,7 +31,7 @@
             <MudText>Click me</MudText>
         </MudButton>
 
-        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="1">
             <ButtonTemplate>
                 <MudButton HtmlTag="label"
                            Variant="Variant.Filled"
@@ -43,6 +42,7 @@
                 </MudButton>
             </ButtonTemplate>
         </MudFileUpload>
+
 
     </MudTabPanel>
 </MudTabs>
@@ -90,11 +90,18 @@
         }
     }
 
-    private void UploadFiles2(IBrowserFile file)
+    private async Task UploadFiles2(InputFileChangeEventArgs e)
     {
-        files.Add(file);
-        //TODO upload the files to the server
+        foreach (var file in e.GetMultipleFiles())
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.OpenReadStream().CopyToAsync(memoryStream);
+                book.BookImage = memoryStream.ToArray();
+            }
+        }
     }
+
 
     IList<IBrowserFile> files = new List<IBrowserFile>();
     private void UploadFiles(IReadOnlyList<IBrowserFile> files)

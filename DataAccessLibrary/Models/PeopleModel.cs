@@ -5,7 +5,7 @@ namespace LibraryManagementApp.Models
 {
     public class PeopleModel
     {
-		public int PersonID { get; set; };
+		public int PersonID { get; set; }
 
         [Required]
         [MaxLength(50, ErrorMessage = "FirstName too long")]

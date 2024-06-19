@@ -6,6 +6,6 @@ CREATE TABLE [Books] (
 , [PublishedDate] TEXT NOT NULL
 , [Genre] TEXT NOT NULL
 , [Rating] INTEGER NOT NULL
-, [Image] BLOB
+, [BookImage] BLOB
 , CONSTRAINT [PK_Book] PRIMARY KEY ([BookID])
 );

@@ -58,11 +58,15 @@
 		<br />
 
 
-		<MudTextField T="string" @bind-Value="_addPeople.FirstName" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-		<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-		<MudTextField T="string" @bind-Value="_addPeople.Address" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-
+		<MudTextField T="string" @bind-Value="_addPeople.FirstName" Counter="50" MaxLength="50" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="50" MaxLength="50" HelperText="Please Input Your Last Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Last Name" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.Address" Counter="100" MaxLength="100" HelperText="Please Input Your Address" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Address" Variant="Variant.Text" />
+		<MudSelect @bind-Value="_addPeople.Gender" Label="Gender" HelperText="Please Choose Your Gender">
+			<MudSelectItem  Value="@("Male")">False</MudSelectItem>
+			<MudSelectItem Value="@("Female")">True</MudSelectItem>
+			<MudSelectItem Value="@("N/A")">True</MudSelectItem>
+		</MudSelect>
 
     </MudTabPanel>
 </MudTabs>
@@ -80,6 +84,7 @@
             yield return "Max 25 characters";
     }
 	private bool _loading;
+
 
 
 	private PeopleModel _addPeople = new PeopleModel();

@@ -5,17 +5,17 @@ namespace LibraryManagementApp.Models
     public class PeopleModel
     {
             [Required]
-            [MaxLength(25, ErrorMessage = "FirstName too long")]
+            [MaxLength(50, ErrorMessage = "FirstName too long")]
             [MinLength(1,ErrorMessage ="Firstname too short")]
             public string FirstName { get; set; }
 
 		    [Required]
-		    [MaxLength(25, ErrorMessage = "Lastname too long")]
+		    [MaxLength(50, ErrorMessage = "Lastname too long")]
 		    [MinLength(1, ErrorMessage = "Lastname too short")]
 		    public string LastName { get; set; }
 
             [Required]
-		    [MaxLength(10, ErrorMessage = "Contact Number too long")]
+		    [MaxLength(12, ErrorMessage = "Contact Number too long")]
 		    public string ContactNumber { get; set; }
 
 		    [Required]

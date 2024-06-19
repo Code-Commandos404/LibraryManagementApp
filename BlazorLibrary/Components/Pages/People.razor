@@ -61,7 +61,7 @@
 		<MudTextField T="string" @bind-Value="_addPeople.FirstName" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
 		<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
 		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-
+		<MudTextField T="string" @bind-Value="_addPeople.Address" Counter="1000" MaxLength="1000" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
 
 
     </MudTabPanel>
@@ -79,14 +79,14 @@
         if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
             yield return "Max 25 characters";
     }
-
+	private bool _loading;
 
 
 	private PeopleModel _addPeople = new PeopleModel();
 
 	private List<PeopleModel> peopleModels;
 
-	private bool _loading;
+	
 
 	protected override async Task OnInitializedAsync()
 	{

@@ -1,11 +1,9 @@
 ﻿@page "/people"
 @rendermode InteractiveServer
+@attribute [StreamRendering]
 @using DataAccessLibrary
 @using LibraryManagementApp.Models
 @using MudBlazor
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 @inject IPeopleData _db
 
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
@@ -65,17 +63,27 @@
 		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
 		<MudTextField T="string" @bind-Value="_addPeople.Address" Counter="100" MaxLength="100" HelperText="Please Input Your Address" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Address" Variant="Variant.Text" />
 		<MudSelect T="string" @bind-Value="_addPeople.Gender" Label="Gender" HelperText="Please Choose Your Gender">
-			<MudSelectItem   Value="@("Male")">Male</MudSelectItem>
+			<MudSelectItem Value="@("Male")">Male</MudSelectItem>
 			<MudSelectItem Value="@("Female")">Female</MudSelectItem>
-			<MudSelectItem Value="@("N/A")">N/A</MudSelectItem>
+			<MudSelectItem Value="@("NA")">N/A</MudSelectItem>
+		</MudSelect>
+
+		<MudSelect T="double" Label="Price" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+			<MudSelectItem T="double" Value="4.50" />
+			<MudSelectItem T="double" Value="4.99" />
+			<MudSelectItem T="double" Value="3.60" />
 		</MudSelect>
 
     </MudTabPanel>
+	
+	
+
 </MudTabs>
 
 
-
 @code {
+	private bool _isExpanded = false;
+	
 	private bool dense = true;
 	private bool hover = true;
 	private bool striped = true;

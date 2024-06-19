@@ -25,7 +25,7 @@ namespace DataAccessLibrary
         }
         public Task InsertPerson(PeopleModel person)
         {
-            string sql = @"insert into People(FirstName,LastName,ContactNumber,Address,Gender,Email)" +
+            string sql = @"insert into People(FirstName,LastName,ContactNumber,Address,Gender,Email,Password)" +
                             "values (@FirstName,@LastName,@ContactNumber,@Address,@Gender,@Email,@Password)"; ///only if the variable names are the same as the column names else use the name of the variables
 
             return _db.SaveData(sql, person);///no purpose to await the data

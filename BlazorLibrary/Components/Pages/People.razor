@@ -3,9 +3,11 @@
 @using DataAccessLibrary
 @using LibraryManagementApp.Models
 @using MudBlazor
+@using System.ComponentModel.DataAnnotations
 
 @inject IPeopleData _db
-<MudDialogProvider />
+@inject ISnackbar Snackbar
+
 <MudSnackbarProvider />
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="View" Icon="@Icons.Material.Filled.List">
@@ -58,7 +60,8 @@
 		<br />
 		<br />
 
-
+		<DataAnnotationsValidator/>
+		<ValidationSummary/>
 		<MudTextField T="string" @bind-Value="_addPeople.FirstName" Counter="50" MaxLength="50" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
 		<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="50" MaxLength="50" HelperText="Please Input Your Last Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Last Name" Variant="Variant.Text" />
 		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
@@ -70,8 +73,8 @@
 			<MudSelectItem Value="@("N/A")" />
 		</MudSelect>
 		<MudTextField @bind-Value="_addPeople.Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
-		<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"  Label="Add Person"/>
-
+		<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Person" OnClick="InsertaPerson" />
+		
     </MudTabPanel>
 </MudTabs>
 
@@ -110,15 +113,42 @@
 
 
 	private PeopleModel _addPeople = new PeopleModel();
-	
+
 
 	private List<PeopleModel> peopleModels;
 
-	
+
 
 	protected override async Task OnInitializedAsync()
 	{
 		peopleModels = await _db.GetPeople();
+	}
+
+	private async Task InsertaPerson()
+	{
+		var validationContext = new ValidationContext(_addPeople, serviceProvider: null, items: null);
+		var validationResults = new List<ValidationResult>();
+
+		if (!Validator.TryValidateObject(_addPeople, validationContext, validationResults, validateAllProperties: true))
+		{
+			foreach (var validationResult in validationResults)
+			{
+				Snackbar.Add(validationResult.ErrorMessage, Severity.Error);
+			}
+			return;
+		}
+
+
+		try
+		{
+			await _db.InsertPerson(_addPeople);
+			Snackbar.Add("New Person added successfully!", Severity.Success);
+			_addPeople = new PeopleModel();
+		}
+		catch (Exception ex)
+		{
+			Snackbar.Add($"Error adding New Person: {ex.Message}", Severity.Error);
+		}
 	}
 }
 

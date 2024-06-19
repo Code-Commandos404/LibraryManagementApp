@@ -13,23 +13,41 @@
 <MudSnackbarProvider />
 
 
-<h3>Books</h3>
-@* fields for inputting the data, bind-value is getting the book properties. *@
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="View" Icon="@Icons.Material.Filled.List">
+    </MudTabPanel>
 
-<MudTextField T="string" @bind-Value="book.Author" Counter="1000" MaxLength="1000" HelperText="Please input the authors full title" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Author Name" Variant="Variant.Text" />
-<MudTextField T="DateTime?" @bind-Value="book.PublishedDate" InputType="InputType.Date" Format="yyyy-mm-dd" Counter="1000" MaxLength="1000" HelperText="Date the book was published officially" Immediate="true" Label="Date Published" Variant="Variant.Text" />
-<MudTextField T="string" @bind-Value="book.Title" Counter="1000" MaxLength="1000" HelperText="Title of the book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Title" Variant="Variant.Text" />
-<MudTextField T="string" @bind-Value="book.Genre" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
-<MudTextField T="int" @bind-Value="book.Rating" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
+    <MudTabPanel Text="Add People" Icon="@Icons.Material.Filled.AddCircle">
+        <h3>Books</h3>
+        @* fields for inputting the data, bind-value is getting the book properties. *@
 
-@* clickable button that performs the insert of data into DB *@
-<MudButton OnClick="postData" Variant="Variant.Filled" Color="Color.Primary">
-    <MudText>Click me</MudText>
-</MudButton>
+        <MudTextField T="string" @bind-Value="book.Author" Counter="1000" MaxLength="1000" HelperText="Please input the authors full title" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Author Name" Variant="Variant.Text" />
+        <MudTextField T="DateTime?" @bind-Value="book.PublishedDate" InputType="InputType.Date" Format="yyyy-mm-dd" Counter="1000" MaxLength="1000" HelperText="Date the book was published officially" Immediate="true" Label="Date Published" Variant="Variant.Text" />
+        <MudTextField T="string" @bind-Value="book.Title" Counter="1000" MaxLength="1000" HelperText="Title of the book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Title" Variant="Variant.Text" />
+        <MudTextField T="string" @bind-Value="book.Genre" Counter="1000" MaxLength="1000" HelperText="Select the genre this book falls under" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Genre" Variant="Variant.Text" />
+        <MudTextField T="int" @bind-Value="book.Rating" Counter="1000" MaxLength="1000" HelperText="Please add the official rating for this book" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Rating" Variant="Variant.Text" />
 
-<MudButton OnClick="test" Variant="Variant.Filled" Color="Color.Primary">
-    <MudText>Click me2 testing</MudText>
-</MudButton>
+        @* clickable button that performs the insert of data into DB *@
+        <MudButton OnClick="postData" Variant="Variant.Filled" Color="Color.Primary">
+            <MudText>Click me</MudText>
+        </MudButton>
+
+        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.CloudUpload"
+                           for="@context.Id">
+                    Only image files
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
+
+    </MudTabPanel>
+</MudTabs>
+
+
 
 @code {
     // Shows warning if the max characters > 1000
@@ -72,9 +90,19 @@
         }
     }
 
-    private void test()
+    private void UploadFiles2(IBrowserFile file)
     {
-        Snackbar.Add("Testing", Severity.Normal);
+        files.Add(file);
+        //TODO upload the files to the server
+    }
 
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private void UploadFiles(IReadOnlyList<IBrowserFile> files)
+    {
+        foreach (var file in files)
+        {
+            this.files.Add(file);
+        }
+        //TODO upload the files to the server
     }
 }

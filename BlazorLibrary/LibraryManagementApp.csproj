@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Pages\Data\**" />
+    <Content Remove="Components\Pages\Data\**" />
+    <EmbeddedResource Remove="Components\Pages\Data\**" />
+    <None Remove="Components\Pages\Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="LibraryDB\LibraryManagementDB.db" />
   </ItemGroup>
 
@@ -29,10 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Pages\Data\" />
   </ItemGroup>
 
 </Project>

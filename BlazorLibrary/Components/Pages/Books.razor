@@ -31,7 +31,8 @@
             <MudText>Click me</MudText>
         </MudButton>
 
-        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="1">
+        
+       @*  <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles" MaximumFileCount="100">
             <ButtonTemplate>
                 <MudButton HtmlTag="label"
                            Variant="Variant.Filled"
@@ -41,7 +42,8 @@
                     Only image files
                 </MudButton>
             </ButtonTemplate>
-        </MudFileUpload>
+        </MudFileUpload> *@
+
 
 
     </MudTabPanel>
@@ -50,6 +52,9 @@
 
 
 @code {
+    // adds files instance for the upload button
+    //IList<IBrowserFile> files = new List<IBrowserFile>(); 
+
     // Shows warning if the max characters > 1000
     private IEnumerable<string> MaxCharacters(string ch)
     {
@@ -68,6 +73,7 @@
         var validationContext = new ValidationContext(book, serviceProvider: null, items: null);
         var validationResults = new List<ValidationResult>();
 
+
         if (!Validator.TryValidateObject(book, validationContext, validationResults, validateAllProperties: true))
         {
             foreach (var validationResult in validationResults)
@@ -76,7 +82,6 @@
             }
             return;
         }
-
 
         try
         {
@@ -89,27 +94,21 @@
             Snackbar.Add($"Error adding book: {ex.Message}", Severity.Error);
         }
     }
-
-    private async Task UploadFiles2(InputFileChangeEventArgs e)
-    {
-        foreach (var file in e.GetMultipleFiles())
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.OpenReadStream().CopyToAsync(memoryStream);
-                book.BookImage = memoryStream.ToArray();
-            }
-        }
-    }
-
-
-    IList<IBrowserFile> files = new List<IBrowserFile>();
-    private void UploadFiles(IReadOnlyList<IBrowserFile> files)
+  /**  private void UploadFiles(IBrowserFile files)
     {
         foreach (var file in files)
         {
-            this.files.Add(file);
+            if (file.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+                    // act on the Base64 data
+                }
+            }
         }
-        //TODO upload the files to the server
-    }
+    }**/
+
 }

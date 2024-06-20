@@ -14,6 +14,24 @@
 
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="View Books" Icon="@Icons.Material.Filled.List">
+
+        @if (booksModel is null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+           @*  <MudDataGrid Style="overflow-x: auto;">
+            <Columns>
+                <PropertyColumn Property="" Title="Nr" />
+                <PropertyColumn Property="x => x.Sign" />
+                <PropertyColumn Property="x => x.Name" />
+                <PropertyColumn Property="x => x.Position" />
+                <PropertyColumn Property="x => x.Molar" Title="Molar mass" />
+                </Columns>
+            </MudDataGrid> *@
+        }
+
     </MudTabPanel>
 
     <MudTabPanel Text="Add Books" Icon="@Icons.Material.Filled.AddCircle">
@@ -52,6 +70,11 @@
 
 
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        booksModel = await _db.GetBooks();
+    }
     // adds files instance for the upload button
     //IList<IBrowserFile> files = new List<IBrowserFile>(); 
 

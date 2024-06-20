@@ -21,6 +21,7 @@
         }
         else
         {
+            <p><em>Loading...</em></p>
            @*  <MudDataGrid Style="overflow-x: auto;">
             <Columns>
                 <PropertyColumn Property="" Title="Nr" />
@@ -71,10 +72,10 @@
 
 @code {
 
-    protected override async Task OnInitializedAsync()
+   /** protected override async Task OnInitializedAsync()
     {
         booksModel = await _db.GetBooks();
-    }
+    }**/
     // adds files instance for the upload button
     //IList<IBrowserFile> files = new List<IBrowserFile>(); 
 

@@ -21,16 +21,26 @@
         }
         else
         {
-            <p><em>Loading...</em></p>
-           @*  <MudDataGrid Style="overflow-x: auto;">
-            <Columns>
-                <PropertyColumn Property="" Title="Nr" />
-                <PropertyColumn Property="x => x.Sign" />
-                <PropertyColumn Property="x => x.Name" />
-                <PropertyColumn Property="x => x.Position" />
-                <PropertyColumn Property="x => x.Molar" Title="Molar mass" />
+            @* <MudDataGrid T="BooksModel" Items="@booksModel" Style="overflow-x: auto;">
+                <Columns>
+                    <PropertyColumn Property="book.Title" Title="Title" />
+                    <PropertyColumn Property="book.Author" Title="Author" />
+                    <PropertyColumn Property="book.PublishedDate" Title="Published Date" />
+                    <PropertyColumn Property="book.Genre" Title="Genre" />
+                    <PropertyColumn Property="book.Rating" Title="Rating" />
+                    <PropertyColumn Property=@book."book.BookImage" Title="BookImage" />
                 </Columns>
             </MudDataGrid> *@
+            <MudDataGrid T="BooksModel" Items="@booksModel" Style="overflow-x: auto;">
+                <Columns>
+                    <PropertyColumn T="BooksModel" TProperty="string" Property="x => x.Title" Title="Title" />
+                    <PropertyColumn T="BooksModel" TProperty="string" Property="x => x.Author" Title="Author" />
+                    <PropertyColumn T="BooksModel" TProperty="DateTime?" Property="x => x.PublishedDate" Title="Published Date" />
+                    <PropertyColumn T="BooksModel" TProperty="string" Property="x => x.Genre" Title="Genre" />
+                    <PropertyColumn T="BooksModel" TProperty="int" Property="x => x.Rating" Title="Rating" />
+                    <PropertyColumn T="BooksModel" TProperty="System.Int64" Property="x => x.BookImage" Title="Book Image" />
+                </Columns>
+            </MudDataGrid>
         }
 
     </MudTabPanel>
@@ -72,10 +82,10 @@
 
 @code {
 
-   /** protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         booksModel = await _db.GetBooks();
-    }**/
+    }
     // adds files instance for the upload button
     //IList<IBrowserFile> files = new List<IBrowserFile>(); 
 

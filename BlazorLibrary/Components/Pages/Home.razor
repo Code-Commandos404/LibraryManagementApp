@@ -2,14 +2,56 @@
 @rendermode InteractiveServer
 @* //<MudImage Fluid="true" Src="HomeBG.jpg" Alt="Swedish Farm House"  Class="rounded-lg" tabindex="0" Style"/> *@
 <PageTitle>Home</PageTitle>
-<MudMainContent>
 
-	<div style="position: relative; top: 0; bottom: 0;">
+	<div style="display:flex; flex-direction:column">
 
-		<MudImage Fluid="true" Src="HomeBg.jpg" Alt="Swedish Farm House"  />
+		<div style="position: relative; z-index:-1; ">
+
+			<MudImage Fluid="true" Src="HomeBg.jpg" Alt="Swedish Farm House" />
+
+		</div>
+    <div style="position:relative;z-index:0;">
+
+			<h6> 
+				Some random Text
+			</h6>
+
+		</div>
+		<div >
+
+            <MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="@arrows" ShowBullets="@bullets" EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="object">
+                <MudCarouselItem Transition="transition" Color="@Color.Primary">
+                    <div class="d-flex" style="height:100%">
+                        <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+                    </div>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+                    <div class="d-flex" style="height:100%">
+                        <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+                    </div>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="transition">
+                    <div class="d-flex" style="height:100%">
+                        <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+                    </div>
+                </MudCarouselItem>
+            </MudCarousel>
+            <MudSelect @bind-Value="transition" Label="Transition" Class="ma-2">
+                <MudSelectItem Value="@Transition.Fade">Fade</MudSelectItem>
+                <MudSelectItem Value="@Transition.Slide">Slide</MudSelectItem>
+                <MudSelectItem Value="@Transition.None">None</MudSelectItem>
+            </MudSelect>
+
+		</div>
 
 	</div>
+	
 
-</MudMainContent>
 
-
+@code {
+    private bool arrows = true;
+    private bool bullets = true;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = true;
+    private Transition transition = Transition.Slide;
+}

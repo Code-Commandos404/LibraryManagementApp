@@ -1,0 +1,104 @@
+﻿@page "/Sign-up"
+@using DataAccessLibrary
+@using LibraryManagementApp.Models
+@using MudBlazor
+@using System.ComponentModel.DataAnnotations
+
+@inject IPeopleData _db
+@inject ISnackbar Snackbar
+
+
+<div style="position:sticky; display:flex;width:450px;height:650px;border:solid;border-radius:5%;background-color:grey;left:35%;top:50%">
+        <div style="position:absolute;flex-direction:row; width:85%;left 10%">
+		<MudTextField  T="string" @bind-Value="_addPeople.FirstName" Counter="50" MaxLength="50" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="50" MaxLength="50" HelperText="Please Input Your Last Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Last Name" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.Address" Counter="100" MaxLength="100" HelperText="Please Input Your Address" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Address" Variant="Variant.Text" />
+		<MudTextField T="string" @bind-Value="_addPeople.Email" Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Email" Variant="Variant.Text" />
+		<MudSelect T="string" @bind-Value="_addPeople.Gender" Label="Gender" HelperText="Please Choose Your Gender">
+			<MudSelectItem Value="@("Male")">Male</MudSelectItem>
+			<MudSelectItem Value="@("Female")">Female</MudSelectItem>
+			<MudSelectItem Value="@("N/A")">N/A</MudSelectItem>
+		</MudSelect>
+		<MudTextField @bind-Value="_addPeople.Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
+        </div>
+    </div>
+    
+
+@code {
+	@code {
+		private bool _isExpanded = false;
+
+		private bool dense = true;
+		private bool hover = true;
+		private bool striped = true;
+		private bool bordered = true;
+		public string Label_Checkbox1 { get; set; } = "Male";
+		private IEnumerable<string> MaxCharacters(string ch)
+		{
+			if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
+				yield return "Max 25 characters";
+		}
+		private bool _loading;
+		bool isShow;
+		InputType PasswordInput = InputType.Password;
+		string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+		void ButtonTestclick()
+		{
+			@if (isShow)
+			{
+				isShow = false;
+				PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+				PasswordInput = InputType.Password;
+			}
+			else
+			{
+				isShow = true;
+				PasswordInputIcon = Icons.Material.Filled.Visibility;
+				PasswordInput = InputType.Text;
+			}
+		}
+
+
+		private PeopleModel _addPeople = new PeopleModel();
+
+
+		private List<PeopleModel> peopleModels;
+
+
+
+		protected override async Task OnInitializedAsync()
+		{
+			peopleModels = await _db.GetPeople();
+		}
+
+		private async Task InsertaPerson()
+		{
+			var validationContext = new ValidationContext(_addPeople, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+
+			if (!Validator.TryValidateObject(_addPeople, validationContext, validationResults, validateAllProperties: true))
+			{
+				foreach (var validationResult in validationResults)
+				{
+					Snackbar.Add(validationResult.ErrorMessage, Severity.Error);
+				}
+				return;
+			}
+
+
+			try
+			{
+				await _db.InsertPerson(_addPeople);
+				Snackbar.Add("New Person added successfully!", Severity.Success);
+				_addPeople = new PeopleModel();
+			}
+			catch (Exception ex)
+			{
+				Snackbar.Add($"Error adding New Person: {ex.Message}", Severity.Error);
+			}
+		}
+	}
+
+}

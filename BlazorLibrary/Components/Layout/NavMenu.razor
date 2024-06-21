@@ -3,7 +3,7 @@
 @using MudBlazor
 
 <MudNavMenu Style="@($"color:{Colors.Green.Accent3};")" Bordered="true">
-    <MudText Typo="Typo.h6" Class="px-4" Style="">Library Management App <br /><br /> </MudText>
+    <MudText Typo="Typo.h6" Class="px-4" Style="display:inline-flex">Library Management App <br /><br /> </MudText>
     <MudNavLink Href="" Match="NavLinkMatch.All">Home</MudNavLink>
     <MudNavGroup Title="Library Management" @bind-Expanded=_isExpanded>
         <MudNavLink Href="books" Match="NavLinkMatch.Prefix">Book Management</MudNavLink>

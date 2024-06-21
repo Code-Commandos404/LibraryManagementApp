@@ -24,7 +24,7 @@ namespace LibraryManagementApp.Models
         public string Genre { get; set; }
         [Required(ErrorMessage = "Rating is required")]
         public int Rating { get; set; }
-        public byte[] BookImage { get; set; }
+        public System.Int64 BookImage { get; set; }
     }
 
     /* public class Book

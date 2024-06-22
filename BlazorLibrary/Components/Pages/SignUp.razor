@@ -1,4 +1,5 @@
 ﻿@page "/Sign-up"
+@rendermode InteractiveServer
 @using DataAccessLibrary
 @using LibraryManagementApp.Models
 @using MudBlazor
@@ -14,7 +15,8 @@
 </style>
 <div id="body" style="height:100vh;display:flex;justify-content:center;align-items:center;background: linear-gradient(to top right,#0c0d0c,#07de3c)">
 	<div style="position:relative;width:450px;height:720px;border:none;border-radius:25px;background-color:#0c0d0c;">
-		<div style="position:absolute;flex-direction:row; width:85%;margin-left:5%">
+		<div style="position:absolute;flex-direction:row; width:85%;margin-left:5%;margin-top:7%;">
+			<MudText Typo="Typo.h3" Color="Color.Primary">Sign-Up</MudText>
 			<MudTextField T="string" @bind-Value="_addPeople.FirstName" Counter="50" MaxLength="50" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
 			<MudTextField T="string" @bind-Value="_addPeople.LastName" Counter="50" MaxLength="50" HelperText="Please Input Your Last Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Last Name" Variant="Variant.Text" />
 			<MudTextField T="string" @bind-Value="_addPeople.ContactNumber" Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
@@ -38,7 +40,7 @@
 
     
 
-@code {
+
 	@code {
 		private bool _isExpanded = false;
 
@@ -70,21 +72,26 @@
 				isShow = true;
 				PasswordInputIcon = Icons.Material.Filled.Visibility;
 				PasswordInput = InputType.Text;
-			}
 		}
+	}
 
 
-		private PeopleModel _addPeople = new PeopleModel();
+	private PeopleModel _addPeople = new PeopleModel();
 
 
-		private List<PeopleModel> peopleModels;
+	private List<PeopleModel> peopleModels;
 
 
 
-		protected override async Task OnInitializedAsync()
-		{
-			peopleModels = await _db.GetPeople();
-		}
+	protected override async Task OnInitializedAsync()
+	{
+		peopleModels = await _db.GetPeople();
+	}
+
+	private async Task ValidateUser()
+	{
+		
+	}
 
 		private async Task InsertaPerson()
 		{
@@ -114,4 +121,4 @@
 		}
 	}
 
-}
+

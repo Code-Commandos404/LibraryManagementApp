@@ -6,23 +6,20 @@
 @using MudBlazor
 @using System.ComponentModel.DataAnnotations
 
-<MudTextField T="string" @* @bind-Value="_addPeople.FirstName"     *@ Counter="50" MaxLength="50" HelperText="Please Input Your First Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="First Name" Variant="Variant.Text" />
-<MudTextField T="string" @* @bind-Value="_addPeople.LastName"      *@ Counter="50" MaxLength="50" HelperText="Please Input Your Last Name" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Last Name" Variant="Variant.Text" />
-<MudTextField T="string" @* @bind-Value="_addPeople.ContactNumber" *@ Counter="12" MaxLength="12" HelperText="Please Input Your Contact Number" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Contact Number" Variant="Variant.Text" />
-<MudTextField T="string" @* @bind-Value="_addPeople.Address"       *@ Counter="100" MaxLength="100" HelperText="Please Input Your Address" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Address" Variant="Variant.Text" />
-<MudTextField T="string" @* @bind-Value="_addPeople.Email"         *@ Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Email" Variant="Variant.Text" />
-<MudSelect T="string"    @* @bind-Value="  _addPeople.Gender"      *@ Label="Gender" HelperText="Please Choose Your Gender">
-	<MudSelectItem Value="@("Male")">Male</MudSelectItem>
-	<MudSelectItem Value="@("Female")">Female</MudSelectItem>
-	<MudSelectItem Value="@("N/A")">N/A</MudSelectItem>
-</MudSelect>
+<MudTextField T="string" @bind-Value="useremail" Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Email" Variant="Variant.Text" />
+<br/>
+
+
+<MudTextField @bind-Value="userpassword" Label="Password" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
 
 <br />
-<br />
-<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Person" @* OnClick="" *@ />
+<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Login" Label="Sign in" /> @* OnClick="" *@
 
 @code {
-    private MudForm form;
+	string useremail ="";
+	string userpassword = "";
+
+	// private MudForm form;
 
     private void OnValidChanged(bool valid)
     {
@@ -35,6 +32,26 @@
 			yield return "Max 25 characters";
 	}
 
+
+	bool isShow;
+	InputType PasswordInput = InputType.Password;
+	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+	void ButtonTestclick()
+	{
+		@if (isShow)
+		{
+			isShow = false;
+			PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+			PasswordInput = InputType.Password;
+		}
+		else
+		{
+			isShow = true;
+			PasswordInputIcon = Icons.Material.Filled.Visibility;
+			PasswordInput = InputType.Text;
+		}
+	}
 
 }
 

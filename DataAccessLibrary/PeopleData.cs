@@ -10,6 +10,7 @@ namespace DataAccessLibrary
     public class PeopleData : IPeopleData, IPeopleValidate
     {
         private readonly ISqlDb _db; //Initializer
+        private PeopleModel _currentUser; 
 
         public PeopleData(ISqlDb db) // Assigning the interface as a parameter for the constructor
         {
@@ -39,9 +40,36 @@ namespace DataAccessLibrary
             var parameters = new { Email = email, Password = password };
 
             // Execute the query and check if any rows are returned
-            var result = await _db.LoadData<int, dynamic>(sql, parameters);
+            var result = await _db.LoadData<PeopleModel, dynamic>(sql, parameters);
+
+            //checks if there is data returned, if so, it will create a user insteance
+            //for the logged in user and store all their DB data into a new model called _currentUser
+            if (result.Count > 0)
+            {
+                var userFromDb = result[0];
+                _currentUser = new PeopleModel {
+                    FirstName = userFromDb.FirstName,
+                    LastName = userFromDb.LastName,
+                    ContactNumber = userFromDb.ContactNumber,
+                    Address = userFromDb.Address,
+                    Gender = userFromDb.Gender,
+                    Email = userFromDb.Email
+                };
+            }
 
             return result.Count > 0;
         }
+
+        public async Task Logout()
+        {
+            _currentUser = null;
+        }
+
+        public async Task<bool> IsLoggedIn()
+        {
+            return _currentUser != null;
+        }
+
+
     }
 }

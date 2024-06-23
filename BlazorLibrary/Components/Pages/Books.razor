@@ -10,10 +10,15 @@
 @inject ISnackbar Snackbar 
 @*Adding in Snackbar component, found in MB docs*@
 <MudSnackbarProvider />
-
+@inject IPeopleValidate auth
 
 <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="View Books" Icon="@Icons.Material.Filled.List">
+
+   @*      @if (auth.)
+        {
+            <p>Good day, @currentUser.Username!</p>
+        } *@
 
         @if (booksModel is null)
         {

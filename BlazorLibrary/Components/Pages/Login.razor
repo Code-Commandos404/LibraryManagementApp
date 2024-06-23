@@ -14,6 +14,7 @@
         <EditForm Model="loginModel" OnValidSubmit="SubmitForm" OnInvalidSubmit="HandleInvalidSubmit">
             <MudTextField T="string" @bind-Value="loginModel.Email" Label="Email" For="@(() => loginModel.Email)" Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Variant="Variant.Text" />
             <MudTextField T="string" @bind-Value="loginModel.Password"  Label="Password" For="@(() => loginModel.Password)" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" Immediate="true" />
+            <br/>
             <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Login" ButtonType="ButtonType.Submit">Sign in</MudButton>
         </EditForm>
     </MudItem>
@@ -90,5 +91,6 @@
         public string Password { get; set; }
     }
 }
+
 
 

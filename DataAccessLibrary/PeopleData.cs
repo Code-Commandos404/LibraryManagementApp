@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLibrary
 {
-    public class PeopleData : IPeopleData
+    public class PeopleData : IPeopleData, IPeopleValidate
     {
         private readonly ISqlDb _db; //Initializer
 
@@ -30,6 +30,18 @@ namespace DataAccessLibrary
 
             return _db.SaveData(sql, person);///no purpose to await the data
 
+        }
+
+        public async Task<bool> CheckCredentials(string email, string password)
+        {
+            string sql = @"SELECT 1 FROM [People] WHERE Email = @Email AND Password = @Password;";
+
+            var parameters = new { Email = email, Password = password };
+
+            // Execute the query and check if any rows are returned
+            var result = await _db.LoadData<int, dynamic>(sql, parameters);
+
+            return result.Count > 0;
         }
     }
 }

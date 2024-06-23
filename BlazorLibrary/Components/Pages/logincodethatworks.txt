@@ -1,8 +1,7 @@
-﻿@page "/login"
+@page "/login"
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @using DataAccessLibrary
-@using LibraryManagementApp.Models
 @using MudBlazor
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
@@ -11,9 +10,9 @@
 
 <MudContainer>
     <MudItem xs="12">
-        <EditForm Model="loginModel" OnValidSubmit="SubmitForm" OnInvalidSubmit="HandleInvalidSubmit">
-            <MudTextField T="string" Label="Email" For="@(() => loginModel.Email)" Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Variant="Variant.Text" />
-            <MudTextField T="string" Label="Password" For="@(() => loginModel.Password)" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" Immediate="true" />
+        <EditForm EditContext="@editContext" OnValidSubmit="SubmitForm" OnInvalidSubmit="HandleInvalidSubmit">
+            <MudTextField T="string" Label="Email" @bind-Value="email" Counter="100" MaxLength="100" HelperText="Please Input Your Email" Immediate="true" Variant="Variant.Text" />
+            <MudTextField T="string" Label="Password" @bind-Value="password" Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" Immediate="true" />
             <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Login" ButtonType="ButtonType.Submit">Sign in</MudButton>
         </EditForm>
     </MudItem>
@@ -21,31 +20,39 @@
         <MudCard>
             <MudCardContent>
                 <h3>Current Form Values</h3>
-                <p><strong>Email:</strong> @loginModel.Email</p>
-                <p><strong>Password:</strong> @loginModel.Password</p>
+                <p><strong>Email:</strong> @email</p>
+                <p><strong>Password:</strong> @password</p>
             </MudCardContent>
         </MudCard>
     </MudItem>
 </MudContainer>
 
 @code {
-    private LoginModel loginModel = new();
+    private string email;
+    private string password;
+    private EditContext editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(this);
+        base.OnInitialized();
+    }
 
     private async Task SubmitForm()
     {
         bool isValid = false;
 
         // Log the current form values to the console
-        Console.WriteLine($"Email: {loginModel.Email}");
-        Console.WriteLine($"Password: {loginModel.Password}");
+        Console.WriteLine($"Email: {email}");
+        Console.WriteLine($"Password: {password}");
 
-        if (string.IsNullOrEmpty(loginModel.Email) || string.IsNullOrEmpty(loginModel.Password))
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
             Console.WriteLine("Blank email and/or password");
             return;
         }
 
-        isValid = await _db.CheckCredentials(loginModel.Email, loginModel.Password);
+        isValid = await _db.CheckCredentials(email, password);
 
         if (isValid)
         {
@@ -62,8 +69,8 @@
     private void HandleInvalidSubmit()
     {
         Console.WriteLine("Form is invalid!");
-        Console.WriteLine($"Email: {loginModel.Email}");
-        Console.WriteLine($"Password: {loginModel.Password}");
+        Console.WriteLine($"Email: {email}");
+        Console.WriteLine($"Password: {password}");
 
         StateHasChanged(); // Ensure the UI updates to reflect the current values
     }
@@ -78,17 +85,4 @@
         PasswordInputIcon = isShow ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff;
         PasswordInput = isShow ? InputType.Text : InputType.Password;
     }
-
-    public class LoginModel
-    {
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "Password is required.")]
-        [MinLength(13, ErrorMessage = "Password must be at least 13 characters long.")]
-        public string Password { get; set; }
-    }
 }
-
-
